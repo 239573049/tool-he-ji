@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Token.HttpClient.Helper\Token.HttpClientHelper.csproj" />
+    <ProjectReference Include="..\..\Token.Inject\Token.Inject.csproj" />
+    <ProjectReference Include="..\ApiTest\ApiTest.csproj" />
+  </ItemGroup>
+
+</Project>

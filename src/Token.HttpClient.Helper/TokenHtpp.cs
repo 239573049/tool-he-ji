@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
@@ -43,15 +44,29 @@ namespace Token.HttpClientHelper
         /// <summary>
         /// 请求格式
         /// </summary>
-        public string MediaType { get; protected set; } = "application/json; charset=utf-8";
+        public string ContentType  { get; protected set; } = "application/json";
+
+        /// <summary>
+        /// 令牌
+        /// </summary>
+        public AuthenticationHeaderValue? Token { get; protected set; }
 
         /// <summary>
         /// 设置请求格式
         /// </summary>
-        /// <param name="mediaType"></param>
-        public void SetMediaType(string mediaType)
+        /// <param name="contentType"></param>
+        public void SetContentType(string contentType)
         {
-            MediaType = mediaType;
+            ContentType  = contentType;
+        }
+
+        /// <summary>
+        /// 设置令牌
+        /// </summary>
+        /// <param name="token"></param>
+        public void SetToken(string token)
+        {
+            Token = new AuthenticationHeaderValue(token);
         }
 
         /// <summary>
@@ -73,6 +88,9 @@ namespace Token.HttpClientHelper
         public async Task<T?> GetAsync<T>(string url) where T : class
         {
             var request = new HttpRequestMessage(HttpMethod.Get, url);
+            if(Token!=null){
+                request.Headers.Authorization = Token;
+            }
             _requestMessage?.Invoke(request);
             var message = await HttpClient.SendAsync(request);
             _responseMessage?.Invoke(message);
@@ -86,6 +104,9 @@ namespace Token.HttpClientHelper
         public async Task<string> GetAsync(string url)
         {
             var request = new HttpRequestMessage(HttpMethod.Get, url);
+            if(Token!=null){
+                request.Headers.Authorization = Token;
+            }
             _requestMessage?.Invoke(request);
             var message = await HttpClient.SendAsync(request);
             _responseMessage?.Invoke(message);
@@ -99,6 +120,10 @@ namespace Token.HttpClientHelper
         public async Task<Stream> GetStreamAsync(string url)
         {
             var request = new HttpRequestMessage(HttpMethod.Get, url);
+            if (Token != null)
+            {
+                request.Headers.Authorization = Token;
+            }
             _requestMessage?.Invoke(request);
             var message = await HttpClient.SendAsync(request);
             _responseMessage?.Invoke(message);
@@ -113,8 +138,15 @@ namespace Token.HttpClientHelper
         /// <returns></returns>
         public async Task<T?> PostAsync<T>(string url, string value) where T : class
         {
-            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, url);
-            request.Content = new StringContent(value, Encoding.UTF8, MediaType);
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, url)
+            {
+                Content = new StringContent(value, Encoding.UTF8)
+            };
+            if (Token != null)
+            {
+                request.Headers.Authorization = Token;
+            }
+            HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(ContentType));
             _requestMessage?.Invoke(request);
             var message = await HttpClient.SendAsync(request);
             _responseMessage?.Invoke(message);
@@ -142,8 +174,13 @@ namespace Token.HttpClientHelper
         {
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, url)
             {
-                Content = new StringContent(JsonConvert.SerializeObject(value), Encoding.UTF8, MediaType)
+                Content = new StringContent(JsonConvert.SerializeObject(value), Encoding.UTF8)
             };
+            if (Token != null)
+            {
+                request.Headers.Authorization = Token;
+            }
+            HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(ContentType));
             _requestMessage?.Invoke(request);
             var message = await HttpClient.SendAsync(request);
             _responseMessage?.Invoke(message);
@@ -168,6 +205,10 @@ namespace Token.HttpClientHelper
         public async Task<T> DeleteAsync<T>(string url) where T : class
         {
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Delete, url);
+            if (Token != null)
+            {
+                request.Headers.Authorization = Token;
+            }
             _requestMessage?.Invoke(request);
             var message = await HttpClient.SendAsync(request);
             _responseMessage?.Invoke(message);
@@ -181,6 +222,10 @@ namespace Token.HttpClientHelper
         public async Task<string> DeleteAsync(string url)
         {
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Delete, url);
+            if (Token != null)
+            {
+                request.Headers.Authorization = Token;
+            }
             _requestMessage?.Invoke(request);
             var message = await HttpClient.SendAsync(request);
             _responseMessage?.Invoke(message);
@@ -197,8 +242,13 @@ namespace Token.HttpClientHelper
         {
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Put, url)
             {
-                Content = new StringContent(JsonConvert.SerializeObject(value), Encoding.UTF8, MediaType)
+                Content = new StringContent(JsonConvert.SerializeObject(value), Encoding.UTF8)
             };
+            if (Token != null)
+            {
+                request.Headers.Authorization = Token;
+            }
+            HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(ContentType));
             _requestMessage?.Invoke(request);
             var message = await HttpClient.SendAsync(request);
             _responseMessage?.Invoke(message);
@@ -214,8 +264,13 @@ namespace Token.HttpClientHelper
         {
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Put, url)
             {
-                Content = new StringContent(JsonConvert.SerializeObject(value), Encoding.UTF8, MediaType)
+                Content = new StringContent(JsonConvert.SerializeObject(value), Encoding.UTF8)
             };
+            if (Token != null)
+            {
+                request.Headers.Authorization = Token;
+            }
+            HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(ContentType));
             _requestMessage?.Invoke(request);
             var message = await HttpClient.SendAsync(request);
             _responseMessage?.Invoke(message);
@@ -233,6 +288,11 @@ namespace Token.HttpClientHelper
         public async Task<T> RequestMessage<T>(HttpMethod method, string url, Action<HttpRequestMessage> requestMessage, Action<HttpResponseMessage> responseMessage) where T : class
         {
             HttpRequestMessage request = new HttpRequestMessage(method, url);
+            if (Token != null)
+            {
+                request.Headers.Authorization = Token;
+            }
+            HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(ContentType));
             _requestMessage?.Invoke(request);
             requestMessage?.Invoke(request);
             var message = await HttpClient.SendAsync(request);
