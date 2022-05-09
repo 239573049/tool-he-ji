@@ -9,7 +9,7 @@
     <Company>tokengo</Company>
     <Description>升级http工具，简化注入</Description>
     <PackageIcon>logo.png</PackageIcon>
-    <Version>1.0.9</Version>
+    <Version>1.0.10</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

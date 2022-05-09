@@ -140,7 +140,7 @@ namespace Token.HttpClientHelper
         {
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, url)
             {
-                Content = new StringContent(value, Encoding.UTF8)
+                Content = new StringContent(value, Encoding.UTF8, ContentType)
             };
             if (Token != null)
             {
@@ -174,7 +174,7 @@ namespace Token.HttpClientHelper
         {
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, url)
             {
-                Content = new StringContent(JsonConvert.SerializeObject(value), Encoding.UTF8)
+                Content = new StringContent(value, Encoding.UTF8, ContentType)
             };
             if (Token != null)
             {
@@ -242,7 +242,7 @@ namespace Token.HttpClientHelper
         {
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Put, url)
             {
-                Content = new StringContent(JsonConvert.SerializeObject(value), Encoding.UTF8)
+                Content = new StringContent(JsonConvert.SerializeObject(value), Encoding.UTF8, ContentType)
             };
             if (Token != null)
             {
@@ -264,7 +264,7 @@ namespace Token.HttpClientHelper
         {
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Put, url)
             {
-                Content = new StringContent(JsonConvert.SerializeObject(value), Encoding.UTF8)
+                Content = new StringContent(JsonConvert.SerializeObject(value), Encoding.UTF8, ContentType)
             };
             if (Token != null)
             {
