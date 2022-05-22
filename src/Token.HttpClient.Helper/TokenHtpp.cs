@@ -327,11 +327,11 @@ namespace Token.HttpClientHelper
         /// <param name="stream"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        public async Task<T> UploadingFile<T>(string url, Stream stream, string name)
+        public async Task<T> UploadingFile<T>(string url, UploadingDto uploading)
         {
             var formData = new MultipartFormDataContent
             {
-                { new StreamContent(stream), "file", name }
+                { new StreamContent(uploading.Stream), uploading.Name, uploading.FileName}
             };
 
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, url)
@@ -357,13 +357,13 @@ namespace Token.HttpClientHelper
         /// <param name="url"></param>
         /// <param name="files">文件流|上传名称|文件名</param>
         /// <returns></returns>
-        public async Task<T> UploadingFile<T>(string url, List<Tuple<Stream, string, string>> files)
+        public async Task<T> UploadingFile<T>(string url, List<UploadingDto> files)
         {
             var formData = new MultipartFormDataContent();
 
             foreach(var f in files)
             {
-                formData.Add(new StreamContent(f.Item1), f.Item2, f.Item3);
+                formData.Add(new StreamContent(f.Stream), f.Name, f.FileName);
             }
 
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, url)
