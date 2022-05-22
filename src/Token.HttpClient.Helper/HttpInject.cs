@@ -4,6 +4,9 @@ using System.Net.Http;
 
 namespace Token.HttpClientHelper
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class HttpInject
     {
         /// <summary>
@@ -11,10 +14,13 @@ namespace Token.HttpClientHelper
         /// </summary>
         /// <param name="services"></param>
         /// <param name="uri"></param>
+        /// <param name="tokenAction"></param>
         /// <returns></returns>
-        public static IServiceCollection AddTokenHttpHelperInject(this IServiceCollection services, Uri uri)
+        public static IServiceCollection AddTokenHttpHelperInject(this IServiceCollection services, Uri uri, Action<TokenHttp>? tokenAction = null)
         {
-            services.AddSingleton(new TokenHttp(new HttpClient() { BaseAddress = uri }));
+            var token = new TokenHttp(new HttpClient() { BaseAddress = uri });
+            tokenAction?.Invoke(token);
+            services.AddSingleton(token);
             return services;
         }
 
@@ -22,11 +28,14 @@ namespace Token.HttpClientHelper
         /// 注入工具
         /// </summary>
         /// <param name="services"></param>
-        /// <param name="uri"></param>
+        /// <param name="tokenAction"></param>
+        /// <param name="baseAddress"></param>
         /// <returns></returns>
-        public static IServiceCollection AddTokenHttpHelperInject(this IServiceCollection services, string baseAddress)
+        public static IServiceCollection AddTokenHttpHelperInject(this IServiceCollection services, string baseAddress, Action<TokenHttp>? tokenAction = null)
         {
-            services.AddSingleton(new TokenHttp(new HttpClient() { BaseAddress = new Uri(baseAddress) }));
+            var token = new TokenHttp(new HttpClient() { BaseAddress = new Uri(baseAddress) });
+            tokenAction?.Invoke(token);
+            services.AddSingleton(token);
             return services;
         }
 
@@ -34,12 +43,16 @@ namespace Token.HttpClientHelper
         /// 注入工具
         /// </summary>
         /// <param name="services"></param>
-        /// <param name="uri"></param>
+        /// <param name="client"></param>
+        /// <param name="tokenAction"></param>
         /// <returns></returns>
-        public static IServiceCollection AddTokenHttpHelperInject(this IServiceCollection services, HttpClient client)
+        public static IServiceCollection AddTokenHttpHelperInject(this IServiceCollection services, HttpClient client, Action<TokenHttp>? tokenAction = null)
         {
-            services.AddSingleton(new TokenHttp(client));
+            var token = new TokenHttp(client);
+            tokenAction?.Invoke(token);
+            services.AddSingleton(token);
             return services;
         }
+
     }
 }

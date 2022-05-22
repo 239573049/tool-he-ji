@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -44,12 +45,12 @@ namespace Token.HttpClientHelper
         /// <summary>
         /// 请求格式
         /// </summary>
-        public string ContentType  { get; protected set; } = "application/json";
+        public string ContentType { get; protected set; } = "application/json";
 
         /// <summary>
         /// 令牌
         /// </summary>
-        public AuthenticationHeaderValue? Token { get; protected set; }
+        public string? Token { get; protected set; }
 
         /// <summary>
         /// 设置请求格式
@@ -57,7 +58,7 @@ namespace Token.HttpClientHelper
         /// <param name="contentType"></param>
         public void SetContentType(string contentType)
         {
-            ContentType  = contentType;
+            ContentType = contentType;
         }
 
         /// <summary>
@@ -66,7 +67,7 @@ namespace Token.HttpClientHelper
         /// <param name="token"></param>
         public void SetToken(string token)
         {
-            Token = new AuthenticationHeaderValue(token);
+            Token = token;
         }
 
         /// <summary>
@@ -88,8 +89,10 @@ namespace Token.HttpClientHelper
         public async Task<T?> GetAsync<T>(string url) where T : class
         {
             var request = new HttpRequestMessage(HttpMethod.Get, url);
-            if(Token!=null){
-                request.Headers.Authorization = Token;
+            if(!string.IsNullOrWhiteSpace(Token))
+            {
+                request.Headers.Remove("Authorization");
+                request.Headers.Add("Authorization", Token);
             }
             _requestMessage?.Invoke(request);
             var message = await HttpClient.SendAsync(request);
@@ -104,8 +107,10 @@ namespace Token.HttpClientHelper
         public async Task<string> GetAsync(string url)
         {
             var request = new HttpRequestMessage(HttpMethod.Get, url);
-            if(Token!=null){
-                request.Headers.Authorization = Token;
+            if(!string.IsNullOrWhiteSpace(Token))
+            {
+                request.Headers.Remove("Authorization");
+                request.Headers.Add("Authorization", Token);
             }
             _requestMessage?.Invoke(request);
             var message = await HttpClient.SendAsync(request);
@@ -120,9 +125,10 @@ namespace Token.HttpClientHelper
         public async Task<Stream> GetStreamAsync(string url)
         {
             var request = new HttpRequestMessage(HttpMethod.Get, url);
-            if (Token != null)
+            if(!string.IsNullOrWhiteSpace(Token))
             {
-                request.Headers.Authorization = Token;
+                request.Headers.Remove("Authorization");
+                request.Headers.Add("Authorization", Token);
             }
             _requestMessage?.Invoke(request);
             var message = await HttpClient.SendAsync(request);
@@ -142,9 +148,10 @@ namespace Token.HttpClientHelper
             {
                 Content = new StringContent(value, Encoding.UTF8, ContentType)
             };
-            if (Token != null)
+            if(!string.IsNullOrWhiteSpace(Token))
             {
-                request.Headers.Authorization = Token;
+                request.Headers.Remove("Authorization");
+                request.Headers.Add("Authorization", Token);
             }
             HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(ContentType));
             _requestMessage?.Invoke(request);
@@ -176,9 +183,10 @@ namespace Token.HttpClientHelper
             {
                 Content = new StringContent(value, Encoding.UTF8, ContentType)
             };
-            if (Token != null)
+            if(!string.IsNullOrWhiteSpace(Token))
             {
-                request.Headers.Authorization = Token;
+                request.Headers.Remove("Authorization");
+                request.Headers.Add("Authorization", Token);
             }
             HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(ContentType));
             _requestMessage?.Invoke(request);
@@ -186,6 +194,7 @@ namespace Token.HttpClientHelper
             _responseMessage?.Invoke(message);
             return await message.Content.ReadAsStringAsync();
         }
+
         /// <summary>
         /// 发起post请求（异步）
         /// </summary>
@@ -196,6 +205,7 @@ namespace Token.HttpClientHelper
         {
             return await PostAsync(url, JsonConvert.SerializeObject(value));
         }
+
         /// <summary>
         /// 发起Delete请求（异步）
         /// </summary>
@@ -205,15 +215,17 @@ namespace Token.HttpClientHelper
         public async Task<T> DeleteAsync<T>(string url) where T : class
         {
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Delete, url);
-            if (Token != null)
+            if(!string.IsNullOrWhiteSpace(Token))
             {
-                request.Headers.Authorization = Token;
+                request.Headers.Remove("Authorization");
+                request.Headers.Add("Authorization", Token);
             }
             _requestMessage?.Invoke(request);
             var message = await HttpClient.SendAsync(request);
             _responseMessage?.Invoke(message);
             return await message.Content.ReadFromJsonAsync<T>();
         }
+
         /// <summary>
         /// 发起Delete请求（异步）
         /// </summary>
@@ -222,15 +234,17 @@ namespace Token.HttpClientHelper
         public async Task<string> DeleteAsync(string url)
         {
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Delete, url);
-            if (Token != null)
+            if(!string.IsNullOrWhiteSpace(Token))
             {
-                request.Headers.Authorization = Token;
+                request.Headers.Remove("Authorization");
+                request.Headers.Add("Authorization", Token);
             }
             _requestMessage?.Invoke(request);
             var message = await HttpClient.SendAsync(request);
             _responseMessage?.Invoke(message);
             return await message.Content.ReadAsStringAsync();
         }
+
         /// <summary>
         /// 发起Put请求（异步）
         /// </summary>
@@ -244,9 +258,10 @@ namespace Token.HttpClientHelper
             {
                 Content = new StringContent(JsonConvert.SerializeObject(value), Encoding.UTF8, ContentType)
             };
-            if (Token != null)
+            if(!string.IsNullOrWhiteSpace(Token))
             {
-                request.Headers.Authorization = Token;
+                request.Headers.Remove("Authorization");
+                request.Headers.Add("Authorization", Token);
             }
             HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(ContentType));
             _requestMessage?.Invoke(request);
@@ -254,6 +269,7 @@ namespace Token.HttpClientHelper
             _responseMessage?.Invoke(message);
             return await message.Content.ReadFromJsonAsync<T>();
         }
+
         /// <summary>
         /// 发起Put请求（异步）
         /// </summary>
@@ -266,9 +282,10 @@ namespace Token.HttpClientHelper
             {
                 Content = new StringContent(JsonConvert.SerializeObject(value), Encoding.UTF8, ContentType)
             };
-            if (Token != null)
+            if(!string.IsNullOrWhiteSpace(Token))
             {
-                request.Headers.Authorization = Token;
+                request.Headers.Remove("Authorization");
+                request.Headers.Add("Authorization", Token);
             }
             HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(ContentType));
             _requestMessage?.Invoke(request);
@@ -288,9 +305,10 @@ namespace Token.HttpClientHelper
         public async Task<T> RequestMessage<T>(HttpMethod method, string url, Action<HttpRequestMessage> requestMessage, Action<HttpResponseMessage> responseMessage) where T : class
         {
             HttpRequestMessage request = new HttpRequestMessage(method, url);
-            if (Token != null)
+            if(!string.IsNullOrWhiteSpace(Token))
             {
-                request.Headers.Authorization = Token;
+                request.Headers.Remove("Authorization");
+                request.Headers.Add("Authorization", Token);
             }
             HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(ContentType));
             _requestMessage?.Invoke(request);
@@ -299,6 +317,69 @@ namespace Token.HttpClientHelper
             _responseMessage?.Invoke(message);
             responseMessage?.Invoke(message);
             return await message.Content.ReadAsAsync<T>();
+        }
+
+        /// <summary>
+        /// 上传文件
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="url"></param>
+        /// <param name="stream"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public async Task<T> UploadingFile<T>(string url, Stream stream, string name)
+        {
+            var formData = new MultipartFormDataContent
+            {
+                { new StreamContent(stream), "file", name }
+            };
+
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, url)
+            {
+                Content = formData
+            };
+
+            if(!string.IsNullOrWhiteSpace(Token))
+            {
+                request.Headers.Remove("Authorization");
+                request.Headers.Add("Authorization", Token);
+            }
+            _requestMessage?.Invoke(request);
+            var message = await HttpClient.SendAsync(request);
+            _responseMessage?.Invoke(message);
+            return await message.Content.ReadFromJsonAsync<T>();
+        }
+
+        /// <summary>
+        /// 上传文件
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="url"></param>
+        /// <param name="files">文件流|上传名称|文件名</param>
+        /// <returns></returns>
+        public async Task<T> UploadingFile<T>(string url, List<Tuple<Stream, string, string>> files)
+        {
+            var formData = new MultipartFormDataContent();
+
+            foreach(var f in files)
+            {
+                formData.Add(new StreamContent(f.Item1), f.Item2, f.Item3);
+            }
+
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, url)
+            {
+                Content = formData
+            };
+
+            if(!string.IsNullOrWhiteSpace(Token))
+            {
+                request.Headers.Remove("Authorization");
+                request.Headers.Add("Authorization", Token);
+            }
+            _requestMessage?.Invoke(request);
+            var message = await HttpClient.SendAsync(request);
+            _responseMessage?.Invoke(message);
+            return await message.Content.ReadFromJsonAsync<T>();
         }
     }
 }

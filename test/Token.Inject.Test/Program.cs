@@ -1,12 +1,13 @@
 using ApiTest;
-using Token.Inject;
 using Token.HttpClientHelper;
+using Token.Inject;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddAutoInject(typeof(ApiTestTag));
+builder.Services.AddControllers();
+builder.Services.AddSingleton(new TokenHttp(new HttpClient()));
 var app = builder.Build();
 
-var http = new TokenHttp(new HttpClient(){ BaseAddress= new Uri("http://baidu.com") });
-var result=await http.PostAsync("baidu", "{\"1\":1}");
-app.MapGet("/", () => "Hello World!");
 
+app.MapGet("/", () => "Hello World!");
+app.MapControllers();
 app.Run();

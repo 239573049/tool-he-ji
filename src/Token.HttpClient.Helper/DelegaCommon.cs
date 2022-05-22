@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Text;
+﻿using System.Net.Http;
 
 namespace Token.HttpClientHelper
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class DelegaCommon
     {
         /// <summary>
