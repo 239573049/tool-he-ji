@@ -302,7 +302,7 @@ namespace Token.HttpClientHelper
         /// <param name="requestMessage"></param>
         /// <param name="responseMessage"></param>
         /// <returns></returns>
-        public async Task<T> RequestMessage<T>(HttpMethod method, string url, Action<HttpRequestMessage> requestMessage, Action<HttpResponseMessage> responseMessage) where T : class
+        public async Task<T> RequestMessageAsync<T>(HttpMethod method, string url, Action<HttpRequestMessage> requestMessage, Action<HttpResponseMessage> responseMessage) where T : class
         {
             HttpRequestMessage request = new HttpRequestMessage(method, url);
             if(!string.IsNullOrWhiteSpace(Token))
@@ -327,7 +327,7 @@ namespace Token.HttpClientHelper
         /// <param name="stream"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        public async Task<T> UploadingFile<T>(string url, UploadingDto uploading)
+        public async Task<T> UploadingFileAsync<T>(string url, UploadingDto uploading)
         {
             var formData = new MultipartFormDataContent
             {
@@ -357,7 +357,7 @@ namespace Token.HttpClientHelper
         /// <param name="url"></param>
         /// <param name="files">文件流|上传名称|文件名</param>
         /// <returns></returns>
-        public async Task<T> UploadingFile<T>(string url, List<UploadingDto> files)
+        public async Task<T> UploadingFileAsync<T>(string url, List<UploadingDto> files)
         {
             var formData = new MultipartFormDataContent();
 
@@ -380,6 +380,33 @@ namespace Token.HttpClientHelper
             var message = await HttpClient.SendAsync(request);
             _responseMessage?.Invoke(message);
             return await message.Content.ReadFromJsonAsync<T>();
+        }
+
+        public async Task<Stream> UploadingStreamAsync(string url, List<UploadingDto> files)
+        {
+
+            var formData = new MultipartFormDataContent();
+
+            foreach(var f in files)
+            {
+                formData.Add(new StreamContent(f.Stream), f.Name, f.FileName);
+            }
+
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, url)
+            {
+                Content = formData
+            };
+
+            if(!string.IsNullOrWhiteSpace(Token))
+            {
+                request.Headers.Remove("Authorization");
+                request.Headers.Add("Authorization", Token);
+            }
+            _requestMessage?.Invoke(request);
+            var message = await HttpClient.SendAsync(request);
+            _responseMessage?.Invoke(message);
+
+            return await message.Content.ReadAsStreamAsync();
         }
     }
 }

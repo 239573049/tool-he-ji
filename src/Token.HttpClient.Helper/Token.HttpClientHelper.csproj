@@ -9,7 +9,7 @@
     <Company>tokengo</Company>
     <Description>升级http工具，简化注入</Description>
     <PackageIcon>gitee.png</PackageIcon>
-    <Version>1.1.0</Version>
+    <Version>1.1.8</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
