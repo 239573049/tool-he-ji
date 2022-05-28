@@ -196,6 +196,30 @@ namespace Token.HttpClientHelper
         }
 
         /// <summary>
+        /// Post请求
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="value"></param>
+        /// <returns>Stream</returns>
+        public async Task<Stream> PostStreamAsync(string url, object value)
+        {
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, url)
+            {
+                Content = new StringContent(JsonConvert.SerializeObject(value), Encoding.UTF8, ContentType)
+            };
+            if(!string.IsNullOrWhiteSpace(Token))
+            {
+                request.Headers.Remove("Authorization");
+                request.Headers.Add("Authorization", Token);
+            }
+            HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(ContentType));
+            _requestMessage?.Invoke(request);
+            var message = await HttpClient.SendAsync(request);
+            _responseMessage?.Invoke(message);
+            return await message.Content.ReadAsStreamAsync();
+        }
+
+        /// <summary>
         /// 发起post请求（异步）
         /// </summary>
         /// <param name="url"></param>
@@ -293,30 +317,32 @@ namespace Token.HttpClientHelper
             _responseMessage?.Invoke(message);
             return await message.Content.ReadAsStringAsync();
         }
+        
         /// <summary>
-        /// 发起Put请求（异步）
+        /// 通用接口（异步）
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="method"></param>
-        /// <param name="url"></param>
-        /// <param name="requestMessage"></param>
-        /// <param name="responseMessage"></param>
-        /// <returns></returns>
-        public async Task<T> RequestMessageAsync<T>(HttpMethod method, string url, Action<HttpRequestMessage> requestMessage, Action<HttpResponseMessage> responseMessage) where T : class
+        /// <param name="url"></param
+        /// <param name="httpContent"></param>
+        /// <returns>Stream</returns>
+        public async Task<Stream> RequestMessageAsync(HttpMethod method, string url,HttpContent httpContent)
         {
             HttpRequestMessage request = new HttpRequestMessage(method, url);
+            
             if(!string.IsNullOrWhiteSpace(Token))
             {
                 request.Headers.Remove("Authorization");
                 request.Headers.Add("Authorization", Token);
             }
+            
             HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(ContentType));
+            request.Content = httpContent;
+            
             _requestMessage?.Invoke(request);
-            requestMessage?.Invoke(request);
             var message = await HttpClient.SendAsync(request);
             _responseMessage?.Invoke(message);
-            responseMessage?.Invoke(message);
-            return await message.Content.ReadAsAsync<T>();
+            return await message.Content.ReadAsStreamAsync();
         }
 
         /// <summary>

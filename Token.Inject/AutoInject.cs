@@ -18,29 +18,28 @@ namespace Token.Inject
         /// <param name="services"></param>
         /// <param name="pTypes"></param>
         /// <returns></returns>
-        public static IServiceCollection AddAutoInject(this IServiceCollection services,params Type[] pTypes)
+        public static IServiceCollection AddAutoInject(this IServiceCollection services, params Type[] pTypes)
         {
-            List<Type> types=new List<Type>();
+            List<Type> types = new List<Type>();
 
             //获取其他Type的程序集
-            foreach (var a in pTypes.Distinct().Select(a => Assembly.GetAssembly(a)).Distinct())
+            foreach(var a in pTypes.Distinct().Select(a => Assembly.GetAssembly(a)).Distinct())
             {
                 types.AddRange(a.GetTypes().Where((a) => typeof(ITransientTag).IsAssignableFrom(a) || typeof(IScopedTag).IsAssignableFrom(a) || typeof(ISingletonTag).IsAssignableFrom(a)).ToList());
             }
 
-            //注入调用方法的程序集
-            types.AddRange(Assembly.GetEntryAssembly().GetTypes().Where((a) => typeof(ITransientTag).IsAssignableFrom(a) || typeof(IScopedTag).IsAssignableFrom(a) || typeof(ISingletonTag).IsAssignableFrom(a)).ToList());
-
-
-
-            foreach (var i in types)
+            foreach(var i in types)
             {
-                if(typeof(ITransientTag).IsAssignableFrom(i)){
+                if(typeof(ITransientTag).IsAssignableFrom(i))
+                {
                     services.AddTransient(i);
                 }
-                else if(typeof(IScopedTag).IsAssignableFrom(i)){
+                else if(typeof(IScopedTag).IsAssignableFrom(i))
+                {
                     services.AddScoped(i);
-                }else{
+                }
+                else
+                {
                     services.AddSingleton(i);
                 }
             }
