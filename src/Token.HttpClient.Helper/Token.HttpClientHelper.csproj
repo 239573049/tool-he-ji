@@ -10,6 +10,10 @@
     <Description>升级http工具，简化注入</Description>
     <PackageIcon>gitee.png</PackageIcon>
     <Version>1.1.8</Version>
+    <PackageProjectUrl>https://gitee.com/hejiale010426/tool-he-ji</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://gitee.com/hejiale010426/tool-he-ji</RepositoryUrl>
+    <PackAsTool>False</PackAsTool>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -25,6 +29,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
     <None Include="C:\Users\Administrator\Pictures\gitee.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
