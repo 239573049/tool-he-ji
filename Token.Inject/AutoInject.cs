@@ -28,20 +28,41 @@ namespace Token.Inject
                 types.AddRange(a.GetTypes().Where((a) => typeof(ITransientTag).IsAssignableFrom(a) || typeof(IScopedTag).IsAssignableFrom(a) || typeof(ISingletonTag).IsAssignableFrom(a)).ToList());
             }
 
-            foreach(var i in types)
+            foreach(var serviceType in types)
             {
-                if(typeof(ITransientTag).IsAssignableFrom(i))
+                var interfaces = serviceType.GetInterfaces().Where(x=>x.Name.EndsWith(serviceType.Name))?.FirstOrDefault();
+                if (interfaces != null)
                 {
-                    services.AddTransient(i);
-                }
-                else if(typeof(IScopedTag).IsAssignableFrom(i))
-                {
-                    services.AddScoped(i);
+                    if(typeof(ITransientTag).IsAssignableFrom(serviceType))
+                    {
+                        services.AddTransient(interfaces,serviceType);
+                    }
+                    else if(typeof(IScopedTag).IsAssignableFrom(serviceType))
+                    {
+                        services.AddScoped(interfaces,serviceType);
+                    }
+                    else if(typeof(ISingletonTag).IsAssignableFrom(serviceType))
+                    {
+                        services.AddSingleton(interfaces,serviceType);
+                    }
                 }
                 else
                 {
-                    services.AddSingleton(i);
+                    if(typeof(ITransientTag).IsAssignableFrom(serviceType))
+                    {
+                        services.AddTransient(serviceType);
+                    }
+                    else if(typeof(IScopedTag).IsAssignableFrom(serviceType))
+                    {
+                        services.AddScoped(serviceType);
+                    }
+                    else if(typeof(ISingletonTag).IsAssignableFrom(serviceType))
+                    {
+                        services.AddSingleton(serviceType);
+                    }
                 }
+                    
+                
             }
 
             types.Clear();

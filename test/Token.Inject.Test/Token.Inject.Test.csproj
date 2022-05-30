@@ -10,6 +10,11 @@
     <ProjectReference Include="..\..\src\Token.HttpClient.Helper\Token.HttpClientHelper.csproj" />
     <ProjectReference Include="..\..\Token.Inject\Token.Inject.csproj" />
     <ProjectReference Include="..\ApiTest\ApiTest.csproj" />
+    <ProjectReference Include="..\Token.Application\Token.Application.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.1" />
   </ItemGroup>
 
 </Project>
