@@ -3,7 +3,5 @@
     /// <summary>
     /// Transient
     /// </summary>
-    public interface ITransientTag
-    {
-    }
+    public interface ITransientTag{}
 }

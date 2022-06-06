@@ -3,7 +3,5 @@
     /// <summary>
     /// Singleton
     /// </summary>
-    public interface ISingletonTag
-    {
-    }
+    public interface ISingletonTag {}
 }

@@ -61,8 +61,6 @@ namespace Token.Inject
                         services.AddSingleton(serviceType);
                     }
                 }
-                    
-                
             }
 
             types.Clear();

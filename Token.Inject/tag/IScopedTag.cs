@@ -3,7 +3,5 @@
     /// <summary>
     /// Scoped
     /// </summary>
-    public interface IScopedTag
-    {
-    }
+    public interface IScopedTag {}
 }

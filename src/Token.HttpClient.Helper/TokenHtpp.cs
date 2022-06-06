@@ -34,13 +34,13 @@ namespace Token.HttpClientHelper
         /// <summary>
         /// 响应请求拦截器
         /// </summary>
-        public static ResponseMessageHandling? _responseMessage;
+        public static ResponseMessageHandling? ResponseMessage;
 
         /// <summary>
         /// 请求体拦截器
         /// </summary>
 
-        public static RequestMessageHandling? _requestMessage;
+        public static RequestMessageHandling? RequestMessage;
 
         /// <summary>
         /// 请求格式
@@ -94,9 +94,9 @@ namespace Token.HttpClientHelper
                 request.Headers.Remove("Authorization");
                 request.Headers.Add("Authorization", Token);
             }
-            _requestMessage?.Invoke(request);
+            RequestMessage?.Invoke(request);
             var message = await HttpClient.SendAsync(request);
-            _responseMessage?.Invoke(message);
+            ResponseMessage?.Invoke(message);
             return await message.Content.ReadFromJsonAsync<T?>();
         }
         /// <summary>
@@ -112,9 +112,9 @@ namespace Token.HttpClientHelper
                 request.Headers.Remove("Authorization");
                 request.Headers.Add("Authorization", Token);
             }
-            _requestMessage?.Invoke(request);
+            RequestMessage?.Invoke(request);
             var message = await HttpClient.SendAsync(request);
-            _responseMessage?.Invoke(message);
+            ResponseMessage?.Invoke(message);
             return await message.Content.ReadAsStringAsync();
         }
         /// <summary>
@@ -130,9 +130,9 @@ namespace Token.HttpClientHelper
                 request.Headers.Remove("Authorization");
                 request.Headers.Add("Authorization", Token);
             }
-            _requestMessage?.Invoke(request);
+            RequestMessage?.Invoke(request);
             var message = await HttpClient.SendAsync(request);
-            _responseMessage?.Invoke(message);
+            ResponseMessage?.Invoke(message);
             return await message.Content.ReadAsStreamAsync();
         }
         /// <summary>
@@ -154,9 +154,9 @@ namespace Token.HttpClientHelper
                 request.Headers.Add("Authorization", Token);
             }
             HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(ContentType));
-            _requestMessage?.Invoke(request);
+            RequestMessage?.Invoke(request);
             var message = await HttpClient.SendAsync(request);
-            _responseMessage?.Invoke(message);
+            ResponseMessage?.Invoke(message);
             return await message.Content.ReadFromJsonAsync<T>();
         }
         /// <summary>
@@ -189,9 +189,9 @@ namespace Token.HttpClientHelper
                 request.Headers.Add("Authorization", Token);
             }
             HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(ContentType));
-            _requestMessage?.Invoke(request);
+            RequestMessage?.Invoke(request);
             var message = await HttpClient.SendAsync(request);
-            _responseMessage?.Invoke(message);
+            ResponseMessage?.Invoke(message);
             return await message.Content.ReadAsStringAsync();
         }
 
@@ -213,9 +213,9 @@ namespace Token.HttpClientHelper
                 request.Headers.Add("Authorization", Token);
             }
             HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(ContentType));
-            _requestMessage?.Invoke(request);
+            RequestMessage?.Invoke(request);
             var message = await HttpClient.SendAsync(request);
-            _responseMessage?.Invoke(message);
+            ResponseMessage?.Invoke(message);
             return await message.Content.ReadAsStreamAsync();
         }
 
@@ -244,9 +244,9 @@ namespace Token.HttpClientHelper
                 request.Headers.Remove("Authorization");
                 request.Headers.Add("Authorization", Token);
             }
-            _requestMessage?.Invoke(request);
+            RequestMessage?.Invoke(request);
             var message = await HttpClient.SendAsync(request);
-            _responseMessage?.Invoke(message);
+            ResponseMessage?.Invoke(message);
             return await message.Content.ReadFromJsonAsync<T>();
         }
 
@@ -263,9 +263,9 @@ namespace Token.HttpClientHelper
                 request.Headers.Remove("Authorization");
                 request.Headers.Add("Authorization", Token);
             }
-            _requestMessage?.Invoke(request);
+            RequestMessage?.Invoke(request);
             var message = await HttpClient.SendAsync(request);
-            _responseMessage?.Invoke(message);
+            ResponseMessage?.Invoke(message);
             return await message.Content.ReadAsStringAsync();
         }
 
@@ -288,9 +288,9 @@ namespace Token.HttpClientHelper
                 request.Headers.Add("Authorization", Token);
             }
             HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(ContentType));
-            _requestMessage?.Invoke(request);
+            RequestMessage?.Invoke(request);
             var message = await HttpClient.SendAsync(request);
-            _responseMessage?.Invoke(message);
+            ResponseMessage?.Invoke(message);
             return await message.Content.ReadFromJsonAsync<T>();
         }
 
@@ -312,9 +312,9 @@ namespace Token.HttpClientHelper
                 request.Headers.Add("Authorization", Token);
             }
             HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(ContentType));
-            _requestMessage?.Invoke(request);
+            RequestMessage?.Invoke(request);
             var message = await HttpClient.SendAsync(request);
-            _responseMessage?.Invoke(message);
+            ResponseMessage?.Invoke(message);
             return await message.Content.ReadAsStringAsync();
         }
         
@@ -339,9 +339,9 @@ namespace Token.HttpClientHelper
             HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(ContentType));
             request.Content = httpContent;
             
-            _requestMessage?.Invoke(request);
+            RequestMessage?.Invoke(request);
             var message = await HttpClient.SendAsync(request);
-            _responseMessage?.Invoke(message);
+            ResponseMessage?.Invoke(message);
             return await message.Content.ReadAsStreamAsync();
         }
 
@@ -370,9 +370,9 @@ namespace Token.HttpClientHelper
                 request.Headers.Remove("Authorization");
                 request.Headers.Add("Authorization", Token);
             }
-            _requestMessage?.Invoke(request);
+            RequestMessage?.Invoke(request);
             var message = await HttpClient.SendAsync(request);
-            _responseMessage?.Invoke(message);
+            ResponseMessage?.Invoke(message);
             return await message.Content.ReadFromJsonAsync<T>();
         }
 
@@ -402,9 +402,9 @@ namespace Token.HttpClientHelper
                 request.Headers.Remove("Authorization");
                 request.Headers.Add("Authorization", Token);
             }
-            _requestMessage?.Invoke(request);
+            RequestMessage?.Invoke(request);
             var message = await HttpClient.SendAsync(request);
-            _responseMessage?.Invoke(message);
+            ResponseMessage?.Invoke(message);
             return await message.Content.ReadFromJsonAsync<T>();
         }
 
@@ -428,9 +428,9 @@ namespace Token.HttpClientHelper
                 request.Headers.Remove("Authorization");
                 request.Headers.Add("Authorization", Token);
             }
-            _requestMessage?.Invoke(request);
+            RequestMessage?.Invoke(request);
             var message = await HttpClient.SendAsync(request);
-            _responseMessage?.Invoke(message);
+            ResponseMessage?.Invoke(message);
 
             return await message.Content.ReadAsStreamAsync();
         }
