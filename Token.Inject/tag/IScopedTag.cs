@@ -1,7 +1,7 @@
 ﻿namespace Token.Inject.tag
 {
-
-    public interface IScopedTag
-    {
-    }
+    /// <summary>
+    /// Scoped
+    /// </summary>
+    public interface IScopedTag {}
 }

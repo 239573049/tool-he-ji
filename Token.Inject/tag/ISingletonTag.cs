@@ -1,6 +1,7 @@
 ﻿namespace Token.Inject.tag
 {
-    public interface ISingletonTag
-    {
-    }
+    /// <summary>
+    /// Singleton
+    /// </summary>
+    public interface ISingletonTag {}
 }

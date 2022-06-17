@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Token.Application;
+using Token.Application.Contracts;
 using Token.HttpClientHelper;
 
 namespace Token.Inject.Test;
@@ -7,15 +9,17 @@ namespace Token.Inject.Test;
 public class HttpController : ControllerBase
 {
     private readonly TokenHttp _http;
-    public HttpController(TokenHttp http)
+    private readonly IDemoAppService _demoAppService;
+    public HttpController(TokenHttp http, IDemoAppService demoAppService)
     {
         _http = http;
+        _demoAppService = demoAppService;
     }
 
     [HttpGet]
-    public async Task Get()
+    public async Task<string> Get()
     {
-        var file = System.IO.File.OpenRead(@"C:\Users\Administrator\Downloads\XunLeiWebSetup_ext.exe");
-        var s = await _http.UploadingFile<string>("http://124.222.27.83:9000/api/Oss/uploading?uploadingType=0", file, "XunLeiWebSetup_ext.exe");
+        var data= await _demoAppService.GetDemoDataAsync();
+        return data;
     }
 }

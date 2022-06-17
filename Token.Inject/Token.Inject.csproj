@@ -6,10 +6,11 @@
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <Authors>Token</Authors>
     <Company>TokenGo</Company>
-    <Description>超简化注入</Description>
+    <Description>超简化注入,支付 接口注入实现类</Description>
     <PackageIcon>logo.png</PackageIcon>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Version>1.0.5</Version>
+    <PackageVersion>1.1.0</PackageVersion>
   </PropertyGroup>
 
   <ItemGroup>

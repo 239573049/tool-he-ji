@@ -1,6 +1,7 @@
 ﻿namespace Token.Inject.tag
 {
-    public interface ITransientTag
-    {
-    }
+    /// <summary>
+    /// Transient
+    /// </summary>
+    public interface ITransientTag{}
 }

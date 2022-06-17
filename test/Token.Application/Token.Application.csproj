@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Token.Inject\Token.Inject.csproj" />
+      <ProjectReference Include="..\Token.Application.Contracts\Token.Application.Contracts.csproj" />
+    </ItemGroup>
+
+</Project>
