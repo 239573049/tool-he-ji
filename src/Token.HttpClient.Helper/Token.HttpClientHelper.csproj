@@ -14,7 +14,7 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://gitee.com/hejiale010426/tool-he-ji</RepositoryUrl>
     <PackAsTool>False</PackAsTool>
-    <PackageVersion>1.2.0</PackageVersion>
+    <PackageVersion>1.2.1</PackageVersion>
     <PackageTags>1.2.0</PackageTags>
     <PackageReleaseNotes>增加post接口返回stream，修改统一使用的接口返回的参数</PackageReleaseNotes>
   </PropertyGroup>

@@ -434,5 +434,32 @@ namespace Token.HttpClientHelper
 
             return await message.Content.ReadAsStreamAsync();
         }
+        
+        public async Task<HttpResponseMessage> UploadingResponseAsync(string url, List<UploadingDto> files)
+        {
+
+            var formData = new MultipartFormDataContent();
+
+            foreach(var f in files)
+            {
+                formData.Add(new StreamContent(f.Stream), f.Name, f.FileName);
+            }
+
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, url)
+            {
+                Content = formData
+            };
+
+            if(!string.IsNullOrWhiteSpace(Token))
+            {
+                request.Headers.Remove("Authorization");
+                request.Headers.Add("Authorization", Token);
+            }
+            _requestMessage?.Invoke(request);
+            var message = await HttpClient.SendAsync(request);
+            _responseMessage?.Invoke(message);
+
+            return await Task.FromResult(message);
+        }
     }
 }

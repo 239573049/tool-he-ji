@@ -20,7 +20,7 @@ namespace Token.HttpClientHelper
         {
             var token = new TokenHttp(new HttpClient() { BaseAddress = uri });
             tokenAction?.Invoke(token);
-            services.AddSingleton(token);
+            services.AddScoped(token.GetType());
             return services;
         }
 
@@ -35,7 +35,7 @@ namespace Token.HttpClientHelper
         {
             var token = new TokenHttp(new HttpClient() { BaseAddress = new Uri(baseAddress) });
             tokenAction?.Invoke(token);
-            services.AddSingleton(token);
+            services.AddScoped(token.GetType());
             return services;
         }
 
@@ -50,7 +50,7 @@ namespace Token.HttpClientHelper
         {
             var token = new TokenHttp(client);
             tokenAction?.Invoke(token);
-            services.AddSingleton(token);
+            services.AddScoped(token.GetType());
             return services;
         }
 
