@@ -16,7 +16,6 @@ namespace Token.HttpClientHelper
     /// </summary>
     public class TokenHttp
     {
-
         /// <summary>
         /// HttpClient
         /// </summary>
@@ -455,9 +454,7 @@ namespace Token.HttpClientHelper
                 request.Headers.Remove("Authorization");
                 request.Headers.Add("Authorization", Token);
             }
-            _requestMessage?.Invoke(request);
             var message = await HttpClient.SendAsync(request);
-            _responseMessage?.Invoke(message);
 
             return await Task.FromResult(message);
         }
